@@ -17,10 +17,11 @@ return new class extends Migration
                 ->constrained('orders')
                 ->onDelete('cascade');
             $table->foreignId('shipping_id')
-                ->constrained('shipping')
+                ->constrained('shippings')
                 ->onDelete('cascade');
             $table->timestamps();
         });
+
     }
 
     /**
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_shippings');
+        //
     }
 };
