@@ -311,9 +311,11 @@
                 <input type="text" placeholder="Search by name or email...">
                 <button type="button"><i class="fas fa-search"></i></button>
             </div>
-            <a href="#" class="add-btn">
-                <i class="fas fa-user-plus"></i> <span>Add New Client</span>
-            </a>
+                        
+            <a href="{{ route('clients.create') }}" class="btn btn-success">Add new client</a>
+            
+            
+
         </div>
 
         <div class="card">

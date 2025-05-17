@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employees extends Model
 {
+    protected $fillable = ['name', 'email', 'position'];
     public function getShipments()
     {
         return $this->hasMany(Shipping::class);

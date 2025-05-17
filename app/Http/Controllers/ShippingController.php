@@ -3,59 +3,64 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Order;
+use App\Models\Orders;
 use App\Models\shipping;
+use App\Models\Employees;
+use App\Models\OrderShipping;
+
 
 class ShippingController extends Controller
 {
-    // Read - List all shipping details
-
-    public function index()
+   public function index()
     {
-        $shippings = shipping::with('order')->get();
-        return view('shipping.index', compact('shippings'));
+    $shippings = OrderShipping::with(['order', 'employee'])->get();
+    return view('Admin.shipping.ordersShipping', compact('shippings'));
     }
 
-    // Create - show form to create new shipping detais
 
-    public function creare()
+
+
+    public function create()
     {
-        $orders = Order::all();
-        return view('shippings.create', compact('orders'));
+    $orders = Orders::all();
+    $employees = Employees::all();
+    return view('Admin.shipping.createShipping', compact('orders', 'employees'));
     }
 
-    // Store - Save new shipping details 
 
-    public function store (Request $request)
+    // تخزين بيانات الشحنة الجديدة
+    public function store(Request $request)
     {
         $request->validate([
             'order_id' => 'required|exists:orders,id',
+            'employee_id' => 'required|exists:employees,id',
             'shipping_address' => 'required|string',
             'carrier' => 'required|string',
             'shipped_date' => 'nullable|date',
             'delivery_date' => 'nullable|date|after_or_equal:shipped_date',
             'status' => 'required|in:pending,shipped,delivered',
         ]);
+
         Shipping::create($request->all());
 
-        return redirect()->route('shippings.index')->with('success', 'Shipping Record Added Successfully.');
+        return redirect()->route('shipping.index')->with('success', 'تم إضافة سجل الشحن بنجاح.');
     }
 
-    // EDIT - Show form to edit shipping
-
+    // عرض نموذج تعديل شحنة موجودة
     public function edit($id)
     {
         $shipping = Shipping::findOrFail($id);
         $orders = Order::all();
-        return view('shippings.edit', compact('shipping', 'orders'));
+        $employees = Employee::all();
+        return view('shipping.edit', compact('shipping', 'orders', 'employees'));
     }
 
-    // UPDATE - Save updated shipping
-
+    // تحديث بيانات الشحنة
     public function update(Request $request, $id)
     {
         $request->validate([
             'order_id' => 'required|exists:orders,id',
+            'employee_id' => 'required|exists:employees,id',
             'shipping_address' => 'required|string',
             'carrier' => 'required|string',
             'shipped_date' => 'nullable|date',
@@ -66,16 +71,15 @@ class ShippingController extends Controller
         $shipping = Shipping::findOrFail($id);
         $shipping->update($request->all());
 
-        return redirect()->route('shippings.index')->with('success', 'Shipping Record Updated Successfully.');
+        return redirect()->route('shipping.index')->with('success', 'تم تحديث سجل الشحن بنجاح.');
     }
 
-    // DELETE - Delete shipping record
-
+    // حذف سجل الشحنة
     public function destroy($id)
     {
         $shipping = Shipping::findOrFail($id);
         $shipping->delete();
 
-        return redirect()->route('shippings.index')->with('success', 'Shipping Record Deleted Successfully.');
+        return redirect()->route('shipping.index')->with('success', 'تم حذف سجل الشحن بنجاح.');
     }
 }
