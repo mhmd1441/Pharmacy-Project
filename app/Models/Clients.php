@@ -9,7 +9,6 @@ use Database\Factories\ClientFactory;
 class Clients extends Model
 {
     use HasFactory;
-
     protected static function newFactory()
     {
         return ClientFactory::new();
@@ -28,6 +27,7 @@ class Clients extends Model
 
     protected $hidden = [
         'password',
+        'remember_token',
     ];
     public function getAddresses()
     {

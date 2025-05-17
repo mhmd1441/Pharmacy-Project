@@ -11,10 +11,10 @@ use App\Models\OrderShipping;
 
 class ShippingController extends Controller
 {
-   public function index()
+    public function index()
     {
-    $shippings = OrderShipping::with(['order', 'employee'])->get();
-    return view('Admin.shipping.ordersShipping', compact('shippings'));
+        $shippings = OrderShipping::with(['order', 'employee'])->get();
+        return view('Admin.shipping.ordersShipping', compact('shippings'));
     }
 
 
@@ -22,9 +22,9 @@ class ShippingController extends Controller
 
     public function create()
     {
-    $orders = Orders::all();
-    $employees = Employees::all();
-    return view('Admin.shipping.createShipping', compact('orders', 'employees'));
+        $orders = Orders::all();
+        $employees = Employees::all();
+        return view('Admin.shipping.createShipping', compact('orders', 'employees'));
     }
 
 
@@ -50,8 +50,8 @@ class ShippingController extends Controller
     public function edit($id)
     {
         $shipping = Shipping::findOrFail($id);
-        $orders = Order::all();
-        $employees = Employee::all();
+        $orders = Orders::all();
+        $employees = Employees::all();
         return view('shipping.edit', compact('shipping', 'orders', 'employees'));
     }
 

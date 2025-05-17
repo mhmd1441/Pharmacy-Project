@@ -21,17 +21,16 @@ Route::get('/signup', [ClientController::class, 'showSignupForm'])->name('auth.s
 Route::post('/signup', [ClientController::class, 'signup'])->name('auth.signup.submit');
 
 
-// //Admin Routes
 Route::get('/admin', function () {
-    return view('Admin.adminPage'); 
+    return view('Admin.adminPage');
 })->name("adminDashboard");
 
 Route::get('/admin/medicine/create', function () {
-    return view('Admin.createMedicine'); 
+    return view('Admin.createMedicine');
 })->name("adminMedicine");
 
 Route::get('/admin/clientPage', function () {
-    return view('Admin.viewClient'); 
+    return view('Admin.viewClient');
 })->name('adminClient');
 
 Route::get('admin/client/create', function () {
@@ -67,15 +66,15 @@ Route::post(
     "storeOrder",
     [OrderController::class, 'store']
 )->name("store-Order");
-
-Route::delete('deleteOrder/{id}', [OrderController::class, 'destroy'])->name('delete-Order');
-
+Route::delete(
+    'deleteOrder/{id}',
+    [OrderController::class, 'destroy']
+)->name('delete-Order');
 Route::get(
     "editOrder/{id}",
     [OrderController::class, 'edit']
 )
     ->name("edit-Order");
-
 Route::put(
     "updateOrder/{id}",
     [OrderController::class, 'update']
@@ -90,24 +89,12 @@ Route::get('/admin/shipping', function () {
 //employee_routing
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
-Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
+Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
 Route::get('/employees/{id}', [EmployeeController::class, 'show'])->name('employees.show');
 Route::get('/employees/{id}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
 Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
 Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 Route::get('/employees/search', [EmployeeController::class, 'search'])->name('employees.search');
-
-
-
-//order_routing
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
-Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-Route::get('/orders/{id}/edit', [OrderController::class, 'edit'])->name('orders.edit');
-Route::put('/orders/{id}', [OrderController::class, 'update'])->name('orders.update');
-Route::delete('/orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
-
 
 //payment_routing
 Route::get('/payment-details', [PaymentDetailsController::class, 'index'])->name('payment-details.index');

@@ -249,29 +249,40 @@
         </div>
 
         <div class="auth-right">
-            <form class="auth-form">
+            <form class="auth-form" method="POST" action="{{ route('auth.login.submit') }}">
+                @csrf
                 <h3>Login to Your Account</h3>
-
+                @if(session('success'))
+                <div style="color: var(--success); margin-bottom: 1rem; text-align: center;">
+                    {{ session('success') }}
+                </div>
+                @endif
+                @if($errors->any())
+                <div style="color: var(--danger); margin-bottom: 1rem;">
+                    <ul style="list-style: none; padding: 0;">
+                        @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                    <input type="email" id="email" name="email" class="form-control"
+                        placeholder="Enter your email" required value="{{ old('email') }}">
                 </div>
-
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                    <input type="password" id="password" name="password"
+                        class="form-control" placeholder="Enter your password" required>
                 </div>
-
                 <div class="forgot-password">
                     <a href="#">Forgot password?</a>
                 </div>
-
-                <button href="{{ route('adminDashboard') }}" type="submit" class="btn">Login</button>
-
+                <button type="submit" class="btn">Login</button>
                 <button type="button" class="btn btn-google">
                     <i class="fab fa-google"></i> Login with Google
                 </button>
-
                 <div class="auth-footer">
                     Don't have an account? <a href="{{ route('auth.signup') }}">Sign up</a>
                 </div>

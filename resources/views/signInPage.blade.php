@@ -246,55 +246,64 @@
         </div>
 
         <div class="auth-right">
-            <form class="auth-form">
+            <form class="auth-form" method="POST" action="{{ route('auth.signup.submit') }}">
+                @csrf
                 <h3>Create Account</h3>
-
+                @if($errors->any())
+                <div style="color: red; padding: 10px; margin-bottom: 15px; border: 1px solid red;">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="text" id="username" class="form-control" placeholder="Enter username" required>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
                 </div>
 
                 <div class="form-group">
                     <div class="dob-group">
                         <div style="flex: 1;">
                             <label for="first_name">First Name</label>
-                            <input type="text" id="first_name" class="form-control" placeholder="First name" required>
+                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First name" required>
                         </div>
                         <div style="flex: 1;">
                             <label for="last_name">Last Name</label>
-                            <input type="text" id="last_name" class="form-control" placeholder="Last name" required>
+                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last name" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="dateOfBirth">Date of Birth</label>
-                    <input type="date" id="dateOfBirth" class="form-control" required>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" required>
                 </div>
 
                 <div class="form-group">
                     <label for="allergies">Allergies (Optional)</label>
-                    <input type="text" id="allergies" class="form-control" placeholder="List any allergies">
+                    <input type="text" id="allergies" name="allergies" class="form-control" placeholder="List any allergies">
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" placeholder="Enter email" required>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" required>
                 </div>
 
                 <div class="form-group">
                     <label for="mobile_number">Mobile Number</label>
-                    <input type="tel" id="mobile_number" class="form-control" placeholder="Enter mobile number" required>
+                    <input type="tel" id="mobile_number" name="mobile_number" class="form-control" placeholder="Enter mobile number" required>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="Create password" required>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Create password" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" id="confirm_password" class="form-control" placeholder="Confirm password" required>
+                    <label for="password_confirmation">Confirm Password</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm password" required>
                 </div>
 
                 <button type="submit" class="btn">Sign Up</button>

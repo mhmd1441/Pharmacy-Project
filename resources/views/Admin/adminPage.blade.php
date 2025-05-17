@@ -258,7 +258,6 @@
 </head>
 
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
             <h3>Pharmacies Zone</h3>
@@ -268,14 +267,13 @@
                 <li><a href="{{ route('adminDashboard') }}" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
                 <li><a href="{{ route('adminClient') }}"><i class="fas fa-users"></i> <span>Clients</span></a></li>
                 <li><a href="{{ route('employees.index') }}"><i class="fas fa-user-tie"></i> <span>Employees</span></a></li>
-                <li><a href="{{ route('adminOrders') }}"><i class="fas fa-shopping-cart"></i> <span>Orders</span></a></li>
+                <li><a href="{{ route('adminOrder') }}"><i class="fas fa-shopping-cart"></i> <span>Orders</span></a></li>
                 <li><a href="{{ route('shipping.index') }}"><i class="fas fa-truck"></i> <span>Shipping</span></a></li>
                 <li><a href="{{ route('orderShipping.index') }}"><i class="fas fa-box"></i> <span>Order Shipping</span></a></li>
             </ul>
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <div class="header">
             <h2>Admin Dashboard</h2>
@@ -284,13 +282,10 @@
                 <span>Admin User</span>
             </div>
         </div>
-
-        <!-- Dashboard Content -->
         <div class="dashboard-content">
             <h3 class="dashboard-title">Dashboard Overview</h3>
 
             <div class="action-buttons">
-                <!-- Updated Buttons with Route Links -->
                 <a href="{{ route('medicines.create') }}" class="btn btn-primary">
                     <i class="fas fa-pills"></i> Create Medicine
                 </a>
@@ -298,8 +293,6 @@
                     <i class="fas fa-user-plus"></i> Create Employee
                 </a>
             </div>
-
-            <!-- This would change based on the menu selection -->
             <div class="table-container">
                 <h4>Recent Activity</h4>
                 <table>

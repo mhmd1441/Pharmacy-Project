@@ -50,7 +50,7 @@
     <div class="container">
         <h1>Welcome to Our Pharmacy Project</h1>
         <p>We are committed to providing quality healthcare and pharmaceutical services.</p>
-        <a href="#" class="btn">Learn More</a>
+        <a href="{{ route('auth.login') }}" class="btn">Learn More</a>
     </div>
 </body>
 

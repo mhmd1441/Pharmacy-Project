@@ -4,95 +4,84 @@ namespace App\Http\Controllers;
 
 use App\Models\Orders;
 use Illuminate\Http\Request;
-// use App\Models\Order;
-use App\Models\Cleint;
 
 class OrderController extends Controller
 {
-    // READ - List all orders
-    public function index()
-    {
-        $orders = Orders::with('client')->get();
-        return view('Admin.viewOrders', compact('orders'));
-    }
-
-    // CREATE - Show form to create new order
+    public function index() {}
     public function create()
     {
-        $clients = Client::all();
-        return view('orders.create', compact('clients'));
-    }
 
-    // STORE - Save new order
+
+        return view('order/createOrder');
+    }
     public function store(Request $request)
     {
-        $request->validate([
-            'client_id' => 'required|exists:clients,id',
-            'order_number' => 'required|unique:orders',
+        $validated = $request->validate([
             'order_date' => 'required|date',
             'total_amount' => 'required|numeric|min:0',
+            'order_status' => 'required|in:pending,shipped,delivered,canceled',
+            'client_id' => 'required|exists:clients,id'
         ]);
-
-        Orders::create($request->all());
-
-        return redirect()->route('orders.index')->with('success', 'Order added successfully.');
+        $order = new Orders();
+        $order->order_date = $validated['order_date'];
+        $order->total_amount = $validated['total_amount'];
+        $order->order_status = $validated['order_status'];
+        $order->client_id = $validated['client_id'];
+        $order->save();
+        return redirect()->route("dashboard")->with('success', 'Order created successfully!');
     }
-
-    // EDIT - Show edit form
+    public function show()
+    {
+        $orders = Orders::all();
+        return view('Admin.viewOrders', ['orders' => $orders]);
+    }
     public function edit($id)
     {
         $order = Orders::findOrFail($id);
-        $clients = Client::all();
-        return view('orders.edit', compact('order', 'clients'));
+        return view('order.editOrder', compact('order'));
     }
-
-    // UPDATE - Save updated order
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'client_id' => 'required|exists:clients,id',
-            'order_number' => 'required|unique:orders,order_number,' . $id,
+        $validated = $request->validate([
             'order_date' => 'required|date',
             'total_amount' => 'required|numeric|min:0',
+            'order_status' => 'required|in:pending,shipped,delivered,canceled',
+            'client_id' => 'required|exists:clients,id'
         ]);
-
         $order = Orders::findOrFail($id);
-        $order->update($request->all());
-
-        return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
+        $order->update($validated);
+        return redirect()->route('adminOrder')->with('success', 'Order updated successfully!');
     }
-
-    // DELETE - Remove order
     public function destroy($id)
     {
-        $order = Orders::findOrFail($id);
+        $order = Orders::find($id);
+        if (!$order) {
+            return redirect()->route('adminOrder')->with('error', 'Order not found!');
+        }
         $order->delete();
-
-        return redirect()->route('Admin.viewOrders')->with('success', 'Order deleted successfully.');
+        return redirect()->route('adminOrder')->with('success', 'Order deleted successfully!');
     }
-
-   public function filterAndSearch(Request $request)
-   {
-    $query = Orders::query();
-
-    if ($request->filled('search')) {
-        $query->where('customer_name', 'like', '%' . $request->search . '%')
-              ->orWhere('order_number', 'like', '%' . $request->search . '%');
+    public function showDescription($id)
+    {
+        $order = Orders::findOrFail($id);
+        return view('order-description', compact('order'));
     }
-
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
+    public function filterAndSearch(Request $request)
+    {
+        $query = Orders::query();
+        if ($request->has('client_id') && !empty($request->client_id)) {
+            $query->where('client_id', 'like', '%' . $request->client_id . '%');
+        }
+        if ($request->has('status') && !empty($request->status)) {
+            $query->where('order_status', $request->status);
+        }
+        if ($request->has('from_date') && !empty($request->from_date)) {
+            $query->where('order_date', '>=', $request->from_date);
+        }
+        if ($request->has('to_date') && !empty($request->to_date)) {
+            $query->where('order_date', '<=', $request->to_date);
+        }
+        $orders = $query->paginate(10);
+        return view('Admin.viewOrders', compact('orders'));
     }
-
-    
-    $orders = $query->paginate(10);
-
-  
-    $orders->appends($request->all());
-
-    return view('Admin.viewOrders', compact('orders'));
-   }
-
-
-
 }
