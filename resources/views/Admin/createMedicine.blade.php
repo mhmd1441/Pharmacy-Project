@@ -152,77 +152,104 @@
 
 <body>
     <div class="container">
-        <div class="header">
+        <div class="header my-4 d-flex justify-content-between align-items-center">
             <h1>Add New Medicine</h1>
-            <a href="#" class="back-btn">
-                <i class="fas fa-arrow-left"></i> Back to Medicines
+            <a href="{{ route('adminDashboard') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Admin Dashboard
             </a>
         </div>
 
-        <div class="card">
-            <h2 class="card-title">Medicine Details</h2>
+        <div class="card p-4 shadow-sm">
+            <h2 class="card-title mb-3">Medicine Details</h2>
 
-            <form>
-                <div class="form-group">
+            <!-- Medicine Creation Form -->
+             
+            <form method="POST" action="{{ route('medicines.store') }}">
+                @csrf
+
+                <div class="form-group mb-3">
                     <label for="medicine_name">Medicine Name*</label>
-                    <input type="text" id="medicine_name" class="form-control" placeholder="Enter medicine name" maxlength="50" required>
+                    <input type="text" id="medicine_name" name="name" class="form-control" value="{{ old('name') }}" required>
+                    @error('name') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
+                <div class="row">
+
+                    <div class="col-md-6 form-group mb-3">
                         <label for="sku">SKU Code*</label>
-                        <input type="text" id="sku" class="form-control" placeholder="Enter unique SKU" maxlength="50" required>
+                        <input type="text" id="sku" name="sku" class="form-control" value="{{ old('sku') }}" required>
+                        @error('sku') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
-                    <div class="form-group">
+
+                    <div class="col-md-6 form-group mb-3">
                         <label for="manufacturer">Manufacturer*</label>
-                        <input type="text" id="manufacturer" class="form-control" placeholder="Enter manufacturer" maxlength="50" required>
+                        <input type="text" id="manufacturer" name="manufacturer" class="form-control" value="{{ old('manufacturer') }}" required>
+                        @error('manufacturer') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
+
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="description">Description (Optional)</label>
-                    <input type="text" id="description" class="form-control" placeholder="Short description" maxlength="100">
+                    <input type="text" id="description" name="description" class="form-control" value="{{ old('description') }}">
+                    @error('description') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
+                <div class="row">
+
+                    <div class="col-md-6 form-group mb-3">
                         <label for="dosage">Dosage (mg)*</label>
-                        <input type="number" id="dosage" class="form-control" placeholder="Enter dosage" required>
+                        <input type="number" id="dosage" name="dosage" class="form-control" value="{{ old('dosage') }}" required>
+                        @error('dosage') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
-                    <div class="form-group">
+
+                    <div class="col-md-6 form-group mb-3">
                         <label for="price">Price*</label>
-                        <input type="number" id="price" class="form-control" placeholder="0.00" step="0.01" min="0" required>
+                        <input type="number" id="price" name="price" class="form-control" step="0.01" value="{{ old('price') }}" required>
+                        @error('price') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
+
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
+                <div class="row">
+
+                    <div class="col-md-6 form-group mb-3">
                         <label for="required_status">Prescription Status*</label>
-                        <select id="required_status" class="form-control" required>
-                            <option value="not_required">Not Required</option>
-                            <option value="required">Required</option>
+                        <select id="required_status" name="required_status" class="form-control" required>
+                            <option value="not_required" {{ old('required_status') == 'not_required' ? 'selected' : '' }}>Not Required</option>
+                            <option value="required" {{ old('required_status') == 'required' ? 'selected' : '' }}>Required</option>
                         </select>
+                        @error('required_status') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
-                    <div class="form-group">
+
+                    <div class="col-md-6 form-group mb-3">
                         <label for="inventory_id">Inventory ID*</label>
-                        <input type="number" id="inventory_id" class="form-control" placeholder="Enter inventory ID" required>
+                        <input type="number" id="inventory_id" name="inventory_id" class="form-control" value="{{ old('inventory_id') }}" required>
+                        @error('inventory_id') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
+
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
+                <div class="row">
+
+                    <div class="col-md-6 form-group mb-3">
                         <label for="production_date">Production Date*</label>
-                        <input type="date" id="production_date" class="form-control" required>
+                        <input type="date" id="production_date" name="production_date" class="form-control" value="{{ old('production_date') }}" required>
+                        @error('production_date') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
-                    <div class="form-group">
+
+                    <div class="col-md-6 form-group mb-3">
                         <label for="expiry_date">Expiry Date*</label>
-                        <input type="date" id="expiry_date" class="form-control" required>
+                        <input type="date" id="expiry_date" name="expiry_date" class="form-control" value="{{ old('expiry_date') }}" required>
+                        @error('expiry_date') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
+
                 </div>
 
-                <button type="submit" class="btn">
+                <button type="submit" class="btn btn-success">
                     <i class="fas fa-pills"></i> Add Medicine
                 </button>
+
             </form>
         </div>
     </div>

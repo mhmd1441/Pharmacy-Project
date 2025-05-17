@@ -265,12 +265,12 @@
         </div>
         <div class="sidebar-menu">
             <ul>
-                <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+                <li><a href="{{ route('adminDashboard') }}" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
                 <li><a href="{{ route('adminClient') }}"><i class="fas fa-users"></i> <span>Clients</span></a></li>
-                <li><a href="#"><i class="fas fa-user-tie"></i> <span>Employees</span></a></li>
-                <li><a href="{{ route('adminOrder') }}"><i class="fas fa-shopping-cart"></i> <span>Orders</span></a></li>
-                <li><a href="#"><i class="fas fa-truck"></i> <span>Shipping</span></a></li>
-                <li><a href="#"><i class="fas fa-box"></i> <span>Order Shipping</span></a></li>
+                <li><a href="{{ route('employees.index') }}"><i class="fas fa-user-tie"></i> <span>Employees</span></a></li>
+                <li><a href="{{ route('adminOrders') }}"><i class="fas fa-shopping-cart"></i> <span>Orders</span></a></li>
+                <li><a href="{{ route('shipping.index') }}"><i class="fas fa-truck"></i> <span>Shipping</span></a></li>
+                <li><a href="{{ route('orderShipping.index') }}"><i class="fas fa-box"></i> <span>Order Shipping</span></a></li>
             </ul>
         </div>
     </div>
@@ -290,8 +290,13 @@
             <h3 class="dashboard-title">Dashboard Overview</h3>
 
             <div class="action-buttons">
-                <button class="btn btn-primary"><i class="fas fa-pills"></i> Create Medicine</button>
-                <button class="btn btn-success"><i class="fas fa-user-plus"></i> Create Employee</button>
+                <!-- Updated Buttons with Route Links -->
+                <a href="{{ route('medicines.create') }}" class="btn btn-primary">
+                    <i class="fas fa-pills"></i> Create Medicine
+                </a>
+                <a href="{{ route('adminEmployee') }}" class="btn btn-success">
+                    <i class="fas fa-user-plus"></i> Create Employee
+                </a>
             </div>
 
             <!-- This would change based on the menu selection -->
@@ -342,5 +347,6 @@
         </div>
     </div>
 </body>
+
 
 </html>

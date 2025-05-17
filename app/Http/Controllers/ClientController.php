@@ -4,67 +4,70 @@ namespace App\Http\Controllers;
 
 use App\Models\Clients;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
-use Illuminate\Auth\Events\Registered;
 
 class ClientController extends Controller
 {
-    public function showSignupForm(): View
+    // READ - Display all clients
+
+    // public function index()
+    // {
+    //     $clients = Client::all();
+    //     return view('clients.index', compact('client'));
+    // }
+
+    public function index()
+
     {
-        return view('signInPage');
+       return view('Admin.viewClient');
+    } 
+      // CREATE - show form to add a new client
+
+
+
+    public function create()
+    {
+        return view('clients.create');
     }
 
-    public function showLoginForm(): View
+    // STORE - Store new client in the database
+
+    public function store(Request $request)
     {
-        return view('loginPage');
+    $request->validate([
+        'name'=> 'required|string|max:255',
+        'email'=> 'required|string|email|max:255|unique:clients',
+        'phone'=> 'required|string|max:255',
+    ]);
+
+    Client::create($request->all());
+
+    return redirect()->route('clients.index')->with('success', 'Client added successfully!');
     }
 
-    public function signup(Request $request): \Illuminate\Http\RedirectResponse
+
+    // UPDATE - save update cleint
+
+    public function update(Request $requst, $id)
     {
         $request->validate([
-            'username' => 'required|string|max:50|unique:clients',
-            'first_name' => 'required|string|max:50',
-            'last_name' => 'required|string|max:50',
-            'dateOfBirth' => 'required|date',
-            'email' => 'required|email|max:50|unique:clients',
-            'mobile_number' => 'required|string|max:20|unique:clients',
-            'password' => 'required|string|min:8|confirmed',
-            'allergies' => 'nullable|string|max:100',
+            'name'=> 'required|string|max:255',
+            'email'=> 'required|string|max:255',
+            'phone'=> 'required|string|max:255',
         ]);
+        $client = Client::findOrFail($id);
+        $client->update($request->all());
 
-        $client = new Clients();
-        $client->username = $request->username;
-        $client->first_name = $request->first_name;
-        $client->last_name = $request->last_name;
-        $client->dateOfBirth = $request->dateOfBirth;
-        $client->allergies = $request->allergies;
-        $client->email = $request->email;
-        $client->mobile_number = $request->mobile_number;
-        $client->password = Hash::make($request->password);
-        $client->save();
-
-        event(new Registered($client));
-
-        return redirect()->route('loginPage')->with('success', 'Registration successful! Please login.');
+        return redirect()->route('clients.index')->with('Success', 'Client updated Successfully.');
     }
-    public function login(Request $request): \Illuminate\Http\RedirectResponse
+
+    // DELETE - delete the client
+
+    public function destroy($id)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:8',
-        ]);
+        $client = Client::findorFail($id);
+        $client->delete();
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $user = Auth::user();
-        }
-        return back()->withErrors([
-            'email' => 'Email and password combination did not match.',
-        ]);
+        return redirect()->route('clients.index')->with('success', 'Client Deleted Successfully.');
     }
+   
 }

@@ -154,79 +154,113 @@
     <div class="container">
         <div class="header">
             <h1>Create New Employee</h1>
-            <a href="#" class="back-btn">
-                <i class="fas fa-arrow-left"></i> Back to Employees
+            <!-- Updated Back Button -->
+            <a href="{{ route('adminDashboard') }}" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Admin Dashboard
             </a>
         </div>
 
         <div class="card">
             <h2 class="card-title">Employee Information</h2>
 
-            <form>
+            <!-- Employee Creation Form -->
+             
+            <form method="POST" action="{{ route('employees.store') }}">
+                @csrf
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="first_name">First Name</label>
-                        <input type="text" id="first_name" class="form-control" placeholder="Enter first name" required>
+                        <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Enter first name" value="{{ old('first_name') }}" required>
+                        @error('first_name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="last_name">Last Name</label>
-                        <input type="text" id="last_name" class="form-control" placeholder="Enter last name" required>
+                        <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Enter last name" value="{{ old('last_name') }}" required>
+                        @error('last_name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control" placeholder="Enter email" required>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" value="{{ old('email') }}" required>
+                        @error('email')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="mobile_number">Mobile Number</label>
-                        <input type="tel" id="mobile_number" class="form-control" placeholder="Enter mobile number" required>
+                        <input type="tel" id="mobile_number" name="mobile_number" class="form-control" placeholder="Enter mobile number" value="{{ old('mobile_number') }}" required>
+                        @error('mobile_number')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <select id="role" class="form-control" required>
+                        <select id="role" name="role" class="form-control" required>
                             <option value="">Select role</option>
-                            <option value="pharmacist">Pharmacist</option>
-                            <option value="manager">Manager</option>
-                            <option value="driver">Driver</option>
+                            <option value="pharmacist" {{ old('role') == 'pharmacist' ? 'selected' : '' }}>Pharmacist</option>
+                            <option value="manager" {{ old('role') == 'manager' ? 'selected' : '' }}>Manager</option>
+                            <option value="driver" {{ old('role') == 'driver' ? 'selected' : '' }}>Driver</option>
                         </select>
+                        @error('role')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select id="status" class="form-control" required>
+                        <select id="status" name="status" class="form-control" required>
                             <option value="">Select status</option>
-                            <option value="active">Active</option>
-                            <option value="onLeave">On Leave</option>
+                            <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="onLeave" {{ old('status') == 'onLeave' ? 'selected' : '' }}>On Leave</option>
                         </select>
+                        @error('status')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="hire_date">Hire Date</label>
-                    <input type="date" id="hire_date" class="form-control" required>
+                    <input type="date" id="hire_date" name="hire_date" class="form-control" value="{{ old('hire_date') }}" required>
+                    @error('hire_date')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" class="form-control" placeholder="Create password" required>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Create password" required>
+                        @error('password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="confirm_password">Confirm Password</label>
-                        <input type="password" id="confirm_password" class="form-control" placeholder="Confirm password" required>
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm password" required>
+                        @error('confirm_password')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
-                <button type="submit" class="btn">
+                <button type="submit" class="btn btn-primary">
                     <i class="fas fa-user-plus"></i> Create Employee
                 </button>
             </form>
         </div>
     </div>
 </body>
+
+
 
 </html>
