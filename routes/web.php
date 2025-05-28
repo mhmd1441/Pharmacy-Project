@@ -40,28 +40,52 @@ Route::get('admin/client/create', function () {
 })->name('clientPage');
 
 
+Route::get('/admin/viewEmployees', function () {
+    return view('Admin.viewEmployees');
+})->name('adminEmployees');
 
+
+// Client Routes
+
+// Show All Clients
+Route::get('/clients', [ClientController::class, 'index'])->name('clientPage');
+
+// Show the form to craete a new client
 Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
-Route::post('/admin/medicines', [MedicineController::class, 'store'])->name('medicines.store');
+
+// Handle the form sumbmission and store the new Client
+Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
+
+
+// // Admin Routes
 Route::get('/admin/employee/create', [EmployeeController::class, 'index'])->name('adminEmployee');
 Route::get('/admin/clients/create', [ClientController::class, 'create'])->name('clients.create');
 Route::get('/orders/search', [OrderController::class, 'filterAndSearch'])->name('orders.search');
 Route::get('/admin/orders', [OrderController::class, 'index'])->name('adminOrders');
-Route::get('/admin/shipping', [ShippingController::class, 'index'])->name('shipping.index');
+Route::get('/admin/viewShipping', [ShippingController::class, 'index'])->name('adminShipping');
 Route::get('/admin/shipping/create', [ShippingController::class, 'create'])->name('shipping.create');
 Route::post('/admin/shipping', [ShippingController::class, 'store'])->name('shipping.store');
 Route::get('/admin/order-shipping', [ShippingController::class, 'index'])->name('orderShipping.index');
+Route::get('/admin/viewEmployees', [EmployeeController::class, 'index'])->name('adminEmployees');
+Route::get('/admin/viewMedicines', [MedicineController::class, 'index'])->name('admin.medicines');
 
-// Send the Form of New Medecine to DataBase
 
-Route::post('/admin/medicine/store', [MedicineController::class, 'store'])->name('medicines.store');
-Route::get('/admin/medicine/create', [MedicineController::class, 'create'])->name('medicines.create');
+// // Send the Form of New Medecine to DataBase
+// Route::post('/admin/medicine/store', [MedicineController::class, 'store'])->name('medicines.store');
+// Route::get('/admin/medicine/create', [MedicineController::class, 'create'])->name('medicines.create');
 Route::post('/medicine/store', [MedicineController::class, 'store'])->name('medicines.store');
 Route::post('/medicines', [MedicineController::class, 'store'])->name('medicines.store');
 Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
-Route::get('/admin/shipping', [ShippingController::class, 'index'])->name('shipping.index');
+// Route::get('/admin/shipping', [ShippingController::class, 'index'])->name('shipping.index');
+// Route::get('/admin/medicines', [OrderController::class, 'index'])->name('adminMedicines');
+// Route::get('/admin/medicines', [MedicineController::class, 'index'])->name('adminMedicines');
 
-
+Route::prefix('admin')->group(function () {
+    Route::get('/medicines', [MedicineController::class, 'index'])->name('medicines.index'); // عرض جميع الأدوية
+    Route::get('/medicines/{id}/edit', [MedicineController::class, 'edit'])->name('medicines.edit'); // تعديل
+    Route::put('/medicines/{id}', [MedicineController::class, 'update'])->name('medicines.update'); // تحديث
+    Route::delete('/medicines/{id}', [MedicineController::class, 'destroy'])->name('medicines.destroy'); // حذف
+});
 //admin_order_routing
 Route::get("/admin/orderPage", [OrderController::class, "show"])->name("adminOrder");
 Route::post(
@@ -88,15 +112,20 @@ Route::get('/admin/shipping', function () {
     return view('shipping.createShipping');
 })->name('shippingPage');
 
+
+
 //employee_routing
-Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
-Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
-Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
-Route::get('/employees/{id}', [EmployeeController::class, 'show'])->name('employees.show');
-Route::get('/employees/{id}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
-Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
-Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+Route::get('/admin/viewEmployees', [EmployeeController::class, 'index'])->name('adminEmployees');
+// Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+// Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
+// Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
+// Route::get('/employees/{id}', [EmployeeController::class, 'show'])->name('employees.show');
+// Route::get('/employees/{id}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+// Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
+// Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 Route::get('/employees/search', [EmployeeController::class, 'search'])->name('employees.search');
+Route::resource('employees', EmployeeController::class);
+
 
 //payment_routing
 Route::get('/payment-details', [PaymentDetailsController::class, 'index'])->name('payment-details.index');
@@ -109,16 +138,20 @@ Route::delete('/payment-details/{id}', [PaymentDetailsController::class, 'destro
 
 
 
-//shipping_routing
-Route::resource('shipping', ShippingController::class);
+// //shipping_routing
 
-Route::get('/shipping', [ShippingController::class, 'index'])->name('shipping.index');
-Route::get('/shipping/create', [ShippingController::class, 'create'])->name('shipping.create');
-Route::post('/shipping', [ShippingController::class, 'store'])->name('shipping.store');
-Route::get('/shipping/{id}', [ShippingController::class, 'show'])->name('shipping.show');
-Route::get('/shipping/{id}/edit', [ShippingController::class, 'edit'])->name('shipping.edit');
-Route::put('/shipping/{id}', [ShippingController::class, 'update'])->name('shipping.update');
-Route::delete('/shipping/{id}', [ShippingController::class, 'destroy'])->name('shipping.destroy');
+Route::get('/shippings/{id}/edit', [ShippingController::class, 'edit'])->name('shippings.edit');
+Route::delete('/shippings/{id}', [ShippingController::class, 'destroy'])->name('shippings.destroy');
+Route::put('/shippings/{id}', [ShippingController::class, 'update'])->name('shippings.update');
+
+// Route::resource('shipping', ShippingController::class);
+// Route::get('/shipping', [ShippingController::class, 'index'])->name('shipping.index');
+// Route::get('/shipping/create', [ShippingController::class, 'create'])->name('shipping.create');
+// Route::post('/shipping', [ShippingController::class, 'store'])->name('shipping.store');
+// Route::get('/shipping/{id}', [ShippingController::class, 'show'])->name('shipping.show');
+// Route::get('/admin/shipping/{id}/edit', [ShippingController::class, 'edit'])->name('shipping.edit');
+// Route::put('/shipping/{id}', [ShippingController::class, 'update'])->name('shipping.update');
+// Route::delete('/admin/shipping/{id}', [ShippingController::class, 'destroy'])->name('shipping.destroy');
 
 
 // Employee CRUD
@@ -128,10 +161,12 @@ Route::post('/employees', [EmployeeController::class, 'store'])->name('employees
 
 // Medicine CRUD
 Route::get('/medicines', [MedicineController::class, 'index'])->name('medicines.index');
+Route::get('/medicines/{id}/edit', [MedicineController::class, 'edit'])->name('medicines.edit');
+Route::delete('/medicines/{id}', [MedicineController::class, 'destroy'])->name('medicines.destroy');
 
-// Admin Routes for Medicine CRUD
+
 Route::get('/admin/medicines/create', [MedicineController::class, 'create'])->name('medicines.create');
-Route::post('/admin/medicines', [MedicineController::class, 'store'])->name('medicines.store');
+// Route::post('/admin/medicines', [MedicineController::class, 'store'])->name('medicines.store');
 
 // Admin Routes for Employee CRUD
 Route::get('/admin/employees/create', [EmployeeController::class, 'create'])->name('employees.create');

@@ -12,23 +12,23 @@ use App\Models\OrderShipping;
 class ShippingController extends Controller
 {
     public function index()
-    {
-        $shippings = OrderShipping::with(['order', 'employee'])->get();
-        return view('Admin.shipping.ordersShipping', compact('shippings'));
+   {
+
+    $shippings = Shipping::with(['getOrders', 'getEmployee', 'getShippingCost'])->get();
+    return view('Admin.viewShipping', compact('shippings'));
+
+
     }
-
-
 
 
     public function create()
     {
         $orders = Orders::all();
         $employees = Employees::all();
-        return view('Admin.shipping.createShipping', compact('orders', 'employees'));
+        return view('Admin.Shipping.createShipping', compact('orders', 'employees'));
     }
-
-
-    // تخزين بيانات الشحنة الجديدة
+    
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -46,35 +46,28 @@ class ShippingController extends Controller
         return redirect()->route('shipping.index')->with('success', 'تم إضافة سجل الشحن بنجاح.');
     }
 
-    // عرض نموذج تعديل شحنة موجودة
+    
     public function edit($id)
     {
         $shipping = Shipping::findOrFail($id);
         $orders = Orders::all();
         $employees = Employees::all();
-        return view('shipping.edit', compact('shipping', 'orders', 'employees'));
+        return view('shippingEdit.editShipping', compact('shipping'));
+
     }
 
-    // تحديث بيانات الشحنة
+    
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'order_id' => 'required|exists:orders,id',
-            'employee_id' => 'required|exists:employees,id',
-            'shipping_address' => 'required|string',
-            'carrier' => 'required|string',
-            'shipped_date' => 'nullable|date',
-            'delivery_date' => 'nullable|date|after_or_equal:shipped_date',
-            'status' => 'required|in:pending,shipped,delivered',
-        ]);
+   {
+    $shipping = Shipping::findOrFail($id);
+    $shipping->update($request->only([
+        'shipping_status', 'shipping_date', 'actual_shipping_date',
+        'actual_arrival_date', 'arrival_date'
+    ]));
 
-        $shipping = Shipping::findOrFail($id);
-        $shipping->update($request->all());
-
-        return redirect()->route('shipping.index')->with('success', 'تم تحديث سجل الشحن بنجاح.');
-    }
-
-    // حذف سجل الشحنة
+    return redirect()->route('adminShipping')->with('success', 'Shipping updated successfully!');
+   }
+   
     public function destroy($id)
     {
         $shipping = Shipping::findOrFail($id);

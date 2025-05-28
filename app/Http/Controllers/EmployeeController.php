@@ -13,7 +13,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employees::all();
-        return view('admin.createEmployee', compact('employees'));
+        return view('admin.viewEmployees', compact('employees'));
     }
 
     // CREATE - show form to add a new employye
@@ -94,4 +94,11 @@ class EmployeeController extends Controller
         // Returning the search results to the view
         return view('employees.index', compact('employees'));
     }
+
+    public function edit($id)
+    {
+    $employee = Employees::findOrFail($id);
+    return view('employees.editEmployee', compact('employee'));
+    }
+
 }
