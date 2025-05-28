@@ -266,10 +266,12 @@
             <ul>
                 <li><a href="{{ route('adminDashboard') }}" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
                 <li><a href="{{ route('adminClient') }}"><i class="fas fa-users"></i> <span>Clients</span></a></li>
-                <li><a href="{{ route('employees.index') }}"><i class="fas fa-user-tie"></i> <span>Employees</span></a></li>
+                <li><a href="{{ route('adminEmployees') }}"><i class="fas fa-user-tie"></i> <span>Employees</span></a></li>
                 <li><a href="{{ route('adminOrder') }}"><i class="fas fa-shopping-cart"></i> <span>Orders</span></a></li>
-                <li><a href="{{ route('shipping.index') }}"><i class="fas fa-truck"></i> <span>Shipping</span></a></li>
+                <li><a href="{{ route('adminShipping') }}"><i class="fas fa-truck"></i> <span>Shipping</span></a></li>
                 <li><a href="{{ route('orderShipping.index') }}"><i class="fas fa-box"></i> <span>Order Shipping</span></a></li>
+                <li><a href="{{ route('admin.medicines') }}"><i class="fas fa-pills"></i> <span>Medicines</span></a></li>
+
             </ul>
         </div>
     </div>

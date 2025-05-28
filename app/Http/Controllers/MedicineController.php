@@ -4,18 +4,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Medicines;
 
-class MedicineController extends Controller
+class MedicineController  extends Controller
 {
-    // READ - Display all medicines
 
     public function index()
     {
         $medicines = Medicines::all();
-        return view('medicines.index', compact('medicines'));
+        return view('Admin.viewMedicines', compact('medicines'));
     }
 
 
-    // CREATE - show form to add a new medicine
 
     public function create()
     {
@@ -59,23 +57,22 @@ class MedicineController extends Controller
     return redirect()->route('medicines.index')->with('success', 'Medicine added successfully.');
     }
 
+    
+    public function edit($id)
+    {
+        $medicine = Medicines::findOrFail($id);
+        return view('medicinesEdit.medicineEdit', compact('medicine'));
+
+    }
 
 
     // UPDATE - save update medicine
 
-    public function update(Request $request, $id) 
+    public function update(Request $request, $id)
     {
-        $request->validate([
-            'medicine_name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'dosage' => 'required|string|max:255',
-
-        ]);
-
-        $medicine = Medicines::findorfail($id);
+        $medicine = Medicines::findOrFail($id);
         $medicine->update($request->all());
-
-        return redirect()->route('medicines.index')->with('success', 'Medicines Updated Successfully.');
+        return redirect()->route('medicines.index')->with('success', 'تم التحديث بنجاح');
     }
 
     // DELETE - delete the medicine
@@ -84,7 +81,6 @@ class MedicineController extends Controller
     {
         $medicine = Medicines::findOrFail($id);
         $medicine->delete();
-
-        return redirect()->route('medicines.index')->with('success', 'Medicine Deleted Successfully.');
+        return redirect()->route('medicines.index')->with('success', 'تم الحذف بنجاح');
     }
 }
