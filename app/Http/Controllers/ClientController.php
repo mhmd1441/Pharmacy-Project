@@ -17,6 +17,20 @@ use Illuminate\Auth\Events\Registered;
 
 class ClientController extends Controller
 {
+    public function create()
+    {
+        return view('clients.create'); //View of create client
+    }
+
+    public function index()
+    {
+       $clients = Client::all();
+       return view('clients.index', compact('clients'));
+    }
+
+
+
+
     public function showSignupForm(): View
     {
         return view('signInPage');
@@ -76,4 +90,6 @@ class ClientController extends Controller
 
         return redirect()->route('adminDashboard');
     }
+
+
 }

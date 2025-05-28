@@ -2,27 +2,27 @@
 <div class="container">
     <h2>Add New Client</h2>
 
-    <form>
-        <div class="form-group">
-            <label for="name">Client Name:</label>
-            <input type="text" name="name" class="form-control" placeholder="Enter client name">
-        </div>
+    <h2>Add New Client</h2>
 
-        <div class="form-group">
-            <label for="email">Client Email:</label>
-            <input type="email" name="email" class="form-control" placeholder="Enter client email">
-        </div>
+<form action="{{ route('clients.store') }}" method="POST">
+    @csrf
 
-        <div class="form-group">
-            <label for="phone">Client Phone:</label>
-            <input type="text" name="phone" class="form-control" placeholder="Enter client phone">
-        </div>
+    <label>Name:</label>
+    <input type="text" name="name" required>
 
-        <button type="submit" class="btn btn-primary" disabled>Submit (Disabled)</button>
-       <a href="{{ route('clientPage') }}" class="btn btn-secondary">Back to Clients Page</a>
+    <label>Email:</label>
+    <input type="email" name="email">
 
-    
+    <label>Phone:</label>
+    <input type="text" name="phone">
 
-    </form>
+    <button type="submit">Save</button>
+
+    <a href="{{ route('clientPage') }}">
+    <button type="button">← Back to Clients</button>
+    </a>
+
+</form>
+
 </div>
 
