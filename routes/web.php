@@ -11,10 +11,12 @@ use App\Http\Controllers\OrderShippingController;
 
 
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/clientSide', function () {
+    return view('clients.homePage');
 });
-
+Route::get('/', function () {
+    return redirect()->route('auth.login');
+});
 Route::get('/login', [ClientController::class, 'showLoginForm'])->name('auth.login');
 Route::post('/login', [ClientController::class, 'login'])->name('auth.login.submit');
 Route::get('/signup', [ClientController::class, 'showSignupForm'])->name('auth.signup');

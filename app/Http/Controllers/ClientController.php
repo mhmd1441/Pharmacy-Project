@@ -73,7 +73,8 @@ class ClientController extends Controller
 
         session(['client_id' => $user->id]);
         session(['client_email' => $user->email]);
+        if ($user)
 
-        return redirect()->route('adminDashboard');
+            return redirect()->route('adminDashboard');
     }
 }

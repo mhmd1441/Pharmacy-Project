@@ -1,4 +1,3 @@
-
 <div class="container">
     <h2>Add New Client</h2>
 
@@ -19,10 +18,9 @@
         </div>
 
         <button type="submit" class="btn btn-primary" disabled>Submit (Disabled)</button>
-       <a href="{{ route('clientPage') }}" class="btn btn-secondary">Back to Clients Page</a>
+        <a href="{{ route('clientPage') }}" class="btn btn-secondary">Back to Clients Page</a>
 
-    
+
 
     </form>
 </div>
-
