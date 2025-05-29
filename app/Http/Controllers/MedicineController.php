@@ -7,11 +7,29 @@ use App\Models\Medicines;
 class MedicineController  extends Controller
 {
 
-    public function index()
-    {
-        $medicines = Medicines::all();
-        return view('Admin.viewMedicines', compact('medicines'));
+ public function index(Request $request)
+{
+    $query = Medicines::query();
+
+    // البحث بالاسم إذا كانت القيمة موجودة
+    if ($request->filled('name')) {
+        $query->where('medicine_name', 'like', '%' . $request->name . '%');
     }
+
+    // التصفية حسب تاريخ الانتهاء إذا كانت القيمة موجودة
+    if ($request->filled('expiry_date')) {
+        $query->whereDate('expiry_date', $request->expiry_date);
+    }
+
+    // الحصول على النتائج بعد التصفية
+    $medicines = $query->get();
+    $totalMedicines = $medicines->count();
+
+    // تمرير النتائج للواجهة
+    return view('admin.viewMedicines', compact('medicines', 'totalMedicines'));
+}
+
+
 
 
 
@@ -61,6 +79,7 @@ class MedicineController  extends Controller
     public function edit($id)
     {
         $medicine = Medicines::findOrFail($id);
+
         return view('medicinesEdit.medicineEdit', compact('medicine'));
 
     }

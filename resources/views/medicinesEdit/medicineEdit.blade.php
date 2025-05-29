@@ -21,26 +21,34 @@
     @csrf
     @method('PUT')
 
-    <label for="name">Medicine Name</label>
-    <input type="text" id="name" name="name" value="{{ old('name', $medicine->name) }}" required>
+    {{-- Medicine Name --}}
+    <label>Medicine Name:</label>
+    <input type="text" name="medicine_name" value="{{ $medicine->medicine_name }}" required>
 
-    <label for="type">Type</label>
-    <input type="text" id="type" name="type" value="{{ old('type', $medicine->type) }}" required>
+    {{-- SKU --}}
+    <label>SKU:</label>
+    <input type="text" name="sku" value="{{ $medicine->sku }}" required>
 
-    <label for="manufacturer">Manufacturer</label>
-    <input type="text" id="manufacturer" name="manufacturer" value="{{ old('manufacturer', $medicine->manufacturer) }}" required>
+    {{-- Manufacturer --}}
+    <label>Manufacturer:</label>
+    <input type="text" name="manufacturer" value="{{ $medicine->manufacturer }}" required>
 
-    <label for="price">Price</label>
-    <input type="number" id="price" name="price" value="{{ old('price', $medicine->price) }}" step="0.01" required>
+    {{-- Price --}}
+    <label>Price:</label>
+    <input type="number" step="0.01" name="price" value="{{ $medicine->price }}" required>
 
-    <label for="stock">Stock</label>
-    <input type="number" id="stock" name="stock" value="{{ old('stock', $medicine->stock) }}" required>
+    {{-- Inventory ID --}}
+    <label>Inventory ID:</label>
+    <input type="number" name="inventory_id" value="{{ $medicine->inventory_id }}" required>
 
-    <label for="expiry_date">Expiry Date</label>
-    <input type="date" id="expiry_date" name="expiry_date" value="{{ old('expiry_date', $medicine->expiry_date) }}" required>
+    {{-- Expiry Date --}}
+    <label>Expiry Date:</label>
+    <input type="date" name="expiry_date" value="{{ $medicine->expiry_date }}" required>
 
-    <button type="submit">Update Medicine</button>
+    <button type="submit">Update</button>
 </form>
+
+
 
 <a href="{{ route('medicines.index') }}" class="back-link">Back to Medicines List</a>
 

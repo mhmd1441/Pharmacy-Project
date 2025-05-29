@@ -11,14 +11,25 @@ use App\Models\OrderShipping;
 
 class ShippingController extends Controller
 {
-    public function index()
-   {
+   public function index(Request $request)
+    {
+    $query = Shipping::query();
 
-    $shippings = Shipping::with(['getOrders', 'getEmployee', 'getShippingCost'])->get();
-    return view('Admin.viewShipping', compact('shippings'));
-
-
+    // بحث بالـ ID
+    if ($request->filled('search_id')) {
+        $query->where('id', $request->search_id);
     }
+
+    // فلترة حسب الحالة
+    if ($request->filled('status')) {
+        $query->where('shipping_status', $request->status);
+    }
+
+    $shippings = $query->orderBy('id', 'desc')->get();
+
+    return view('admin.viewShipping', compact('shippings'));
+   }
+
 
 
     public function create()
