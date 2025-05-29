@@ -164,7 +164,6 @@
     <div class="container">
         <div class="header">
             <h1>Create New Employee</h1>
-            <!-- Updated Back Button -->
             <a href="{{ route('adminDashboard') }}" class="back-btn">
                 <i class="fas fa-arrow-left"></i> Back to Admin Dashboard
             </a>

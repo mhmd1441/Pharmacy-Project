@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Medicines extends Model
 {
+    use HasFactory;
     protected $table = 'medicines';
 
     protected $fillable = [
@@ -16,10 +17,12 @@ class Medicines extends Model
         'description',
         'dosage',
         'price',
+        'quantity',
         'required_status',
         'inventory_id',
         'production_date',
-        'expiry_date'
+        'expiry_date',
+        'image'
     ];
 
     public function inventory()

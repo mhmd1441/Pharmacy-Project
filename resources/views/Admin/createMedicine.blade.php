@@ -163,14 +163,14 @@
             <h2 class="card-title mb-3">Medicine Details</h2>
 
             <!-- Medicine Creation Form -->
-             
-            <form method="POST" action="{{ route('medicines.store') }}">
+
+            <form method="POST" action="{{ route('medicines.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <div class="form-group mb-3">
                     <label for="medicine_name">Medicine Name*</label>
-                    <input type="text" id="medicine_name" name="name" class="form-control" value="{{ old('name') }}" required>
-                    @error('name') <div class="text-danger">{{ $message }}</div> @enderror
+                    <input type="text" id="medicine_name" name="medicine_name" class="form-control" value="{{ old('medicine_name') }}" required>
+                    @error('medicine_name') <div class="text-danger">{{ $message }}</div> @enderror
                 </div>
 
                 <div class="row">
@@ -242,6 +242,11 @@
                         <label for="expiry_date">Expiry Date*</label>
                         <input type="date" id="expiry_date" name="expiry_date" class="form-control" value="{{ old('expiry_date') }}" required>
                         @error('expiry_date') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="image">Medicine Image</label>
+                        <input type="file" id="image" name="image" class="form-control">
+                        @error('image') <div class="text-danger">{{ $message }}</div> @enderror
                     </div>
 
                 </div>

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Client Management</title>
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <script src="https://kit.fontawesome.com/yourkit.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -37,7 +39,7 @@
 
             <!-- Add New Client -->
             <a href="{{ route('clients.create') }}" class="btn btn-success">Add new client</a>
-            
+
         </div>
 
         <div class="card">
@@ -54,33 +56,33 @@
                 </thead>
                 <tbody>
                     @forelse($clients as $client)
-                        <tr>
-                            <td>#{{ $client->id }}</td>
-                            <td>{{ $client->name }}</td>
-                            <td>{{ $client->email }}</td>
-                            <td>{{ $client->phone }}</td>
-                            <td class="{{ $client->status === 'Active' ? 'status-active' : 'status-inactive' }}">
-                                {{ $client->status }}
-                            </td>
-                            <td>
-                                <div class="action-btns">
-                                    <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-edit">
-                                        <i class="fas fa-edit"></i> <span>Edit</span>
-                                    </a>
-                                    <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this client?')">
-                                            <i class="fas fa-trash-alt"></i> <span>Delete</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>#{{ $client->id }}</td>
+                        <td>{{ $client->name }}</td>
+                        <td>{{ $client->email }}</td>
+                        <td>{{ $client->phone }}</td>
+                        <td class="{{ $client->status === 'Active' ? 'status-active' : 'status-inactive' }}">
+                            {{ $client->status }}
+                        </td>
+                        <td>
+                            <div class="action-btns">
+                                <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-edit">
+                                    <i class="fas fa-edit"></i> <span>Edit</span>
+                                </a>
+                                <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this client?')">
+                                        <i class="fas fa-trash-alt"></i> <span>Delete</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
                     @empty
-                        <tr>
-                            <td colspan="6">No clients found.</td>
-                        </tr>
+                    <tr>
+                        <td colspan="6">No clients found.</td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -92,4 +94,5 @@
         </div>
     </div>
 </body>
+
 </html>

@@ -3,9 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Database\Factories\EmployeeFactory;
 
 class Employees extends Model
 {
+    use HasFactory;
+    protected static function newFactory()
+    {
+        return EmployeeFactory::new();
+    }
     protected $fillable = [
         'first_name',
         'last_name',

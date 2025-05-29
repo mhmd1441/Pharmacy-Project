@@ -22,20 +22,19 @@ class Orders extends Model
         'client_id'
     ];
 
-    public function getClient()
+    public function medicines()
     {
-        return $this->belongsTo(Clients::class, "clients_id", "id");
+        return $this->belongsToMany(Medicines::class, 'order_medicines')
+            ->withPivot(['quantity', 'price']);
     }
-    public function getMedicines()
+
+    public function shipping()
     {
-        return $this->belongsToMany(Medicines::class);
+        return $this->hasOne(OrderShipping::class);
     }
-    public function getShippings()
+
+    public function client()
     {
-        return $this->belongsToMany(Shipping::class);
-    }
-    public function getPaymentDetails()
-    {
-        return $this->hasOne(PaymentDetails::class);
+        return $this->belongsTo(Clients::class, 'client_id');
     }
 }

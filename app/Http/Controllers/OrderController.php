@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Medicines;
+use App\Models\Order_medicine;
 use App\Models\Orders;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -83,5 +87,133 @@ class OrderController extends Controller
         }
         $orders = $query->paginate(10);
         return view('Admin.viewOrders', compact('orders'));
+    }
+
+    public function cart()
+    {
+        $cart = session()->get('cart', []);
+        return view('order.myCart', compact('cart'));
+    }
+
+    // Add item to cart
+    public function addToCart($id)
+    {
+        $medicine = Medicines::findOrFail($id);
+
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "name" => $medicine->medicine_name,
+                "quantity" => 1,
+                "price" => $medicine->price,
+                "image" => $medicine->image
+            ];
+        }
+
+        session()->put('cart', $cart);
+        return redirect()->back()->with('success', 'Medicine added to cart!');
+    }
+
+    // Update cart item quantity
+    public function updateCart(Request $request)
+    {
+        if ($request->id && $request->quantity) {
+            $medicine = Medicines::find($request->id);
+
+            if (!$medicine) {
+                return redirect()->back()->with('error', 'Medicine not found');
+            }
+
+            if ($medicine->quantity < $request->quantity) {
+                return redirect()->back()->with(
+                    'error',
+                    "Only {$medicine->quantity} available in stock"
+                );
+            }
+
+            $cart = session()->get('cart');
+            $cart[$request->id]["quantity"] = $request->quantity;
+            session()->put('cart', $cart);
+
+            return redirect()->back()->with('success', 'Cart updated successfully');
+        }
+
+        return redirect()->back()->with('error', 'Invalid request');
+    }
+
+    // Remove item from cart
+    public function removeFromCart($id)
+    {
+        $cart = session()->get('cart');
+
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+        }
+
+        return redirect()->back()->with('success', 'Medicine removed from cart');
+    }
+
+    // Checkout and create order
+    public function checkout(Request $request)
+    {
+        // Check authentication
+        if (!Auth::check()) {
+            return redirect()->route('auth.login')->with('error', 'Please login to checkout');
+        }
+
+        // Get cart from session
+        $cart = session()->get('cart', []);
+
+        // Check if cart is empty
+        if (empty($cart)) {
+            return redirect()->route('cart.index')->with('error', 'Your cart is empty');
+        }
+
+        // Calculate total
+        $total = array_reduce($cart, function ($carry, $item) {
+            return $carry + ($item['price'] * $item['quantity']);
+        }, 0);
+
+        // Create order
+        $order = Orders::create([
+            'order_date' => now(),
+            'total_amount' => $total,
+            'order_status' => 'pending',
+            'client_id' => Auth::id()
+        ]);
+
+        // Add order items
+        foreach ($cart as $id => $item) {
+            Order_medicine::create([
+                'order_id' => $order->id,
+                'medicine_id' => $id,
+                'quantity' => $item['quantity'],
+                'price' => $item['price']
+            ]);
+
+            // Update medicine stock
+            Medicines::where('id', $id)->decrement('quantity', $item['quantity']);
+        }
+
+        // Clear cart
+        session()->forget('cart');
+
+        return redirect()->route('orders.my')->with('success', 'Order placed successfully!');
+    }
+
+    // View customer's order
+    public function myOrders()
+    {
+        $orders = Orders::with(['items.medicine'])
+            ->where('client_id', Auth::id())
+            ->orderBy('order_date', 'desc')
+            ->get();
+
+
+        return view('order.OrderHomePage', compact('orders'));
     }
 }

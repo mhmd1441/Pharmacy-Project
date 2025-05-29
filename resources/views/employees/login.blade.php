@@ -249,7 +249,7 @@
         </div>
 
         <div class="auth-right">
-            <form class="auth-form" method="POST" action="{{ route('auth.login.submit') }}">
+            <form class="auth-form" method="POST" action="{{ route('auth_login_submit_emp') }}">
                 @csrf
                 <h3>Login to Your Account</h3>
                 @if(session('success'))
@@ -280,15 +280,6 @@
                     <a href="#">Forgot password?</a>
                 </div>
                 <button type="submit" class="btn">Login</button>
-                <button type="button" class="btn btn-google">
-                    <i class="fab fa-google"></i> Login with Google
-                </button>
-                <div class="auth-footer">
-                    Don't have an account? <a href="{{ route('auth.signup') }}">Sign up</a>
-                </div>
-                <div class="auth-footer">
-                    <a href="{{ route('auth_login_emp') }}">Employee Log In</a>
-                </div>
             </form>
         </div>
     </div>

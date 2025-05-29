@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Clients;
+use App\Models\Medicines;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -19,13 +20,13 @@ class ClientController extends Controller
 {
     public function create()
     {
-        return view('clients.create'); //View of create client
+        return view('clients.create');
     }
 
     public function index()
     {
-       $clients = Client::all();
-       return view('clients.index', compact('clients'));
+        $clients = Clients::all();
+        return view('clients.index', compact('clients'));
     }
 
 
@@ -89,8 +90,44 @@ class ClientController extends Controller
         session(['client_email' => $user->email]);
         if ($user)
 
-            return redirect()->route('adminDashboard');
+            return redirect()->route('clientPage');
     }
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('auth.login')->with([
+            'message' => 'You have been logged out successfully.',
+            'title' => 'Logout Successful !',
+        ]);
+    }
+    public function fetchAllClients()
+    {
+        $clients = Clients::all();
+        return view('admin.viewClient', compact('clients'));
+    }
+    public function add(Request $request, Medicines $medicine)
+    {
+        $cart = session()->get('cart', []);
 
+        //Am chayik If hiye bel cart to increment else zida
+        if (isset($cart[$medicine->id])) {
+            $cart[$medicine->id]['quantity']++;
+        } else {
+            $cart[$medicine->id] = [
+                "name" => $medicine->medicine_name,
+                "quantity" => 1,
+                "price" => $medicine->price,
+                "image" => $medicine->image
+            ];
+        }
 
+        session()->put('cart', $cart);
+        return redirect()->back()->with('success', 'Medicine added to cart successfully!');
+    }
+    public function show(Medicines $medicine)
+    {
+        return view('medicines.show', compact('medicine'));
+    }
 }

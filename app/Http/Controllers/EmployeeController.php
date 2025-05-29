@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employees;
+use App\Models\Medicines;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
 
 
 class EmployeeController extends Controller
@@ -97,8 +100,61 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-    $employee = Employees::findOrFail($id);
-    return view('employees.editEmployee', compact('employee'));
+        $employee = Employees::findOrFail($id);
+        return view('employees.editEmployee', compact('employee'));
     }
 
+
+
+    //login Authentication
+    //DO NOT  DELETE
+    public function showLoginForm(): View
+    {
+        return view('employees.login');
+    }
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
+
+        $user = Employees::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ])->onlyInput('email');
+        }
+
+        session(['client_id' => $user->id]);
+        session(['client_email' => $user->email]);
+        if ($user)
+
+            return redirect()->route('EmployeePage');
+    }
+
+    public function fetchAllMedicines()
+    {
+        $medicines = Medicines::all();
+        return view('employees.EmployeeHomePage', compact('medicines'));
+    }
+    public function searchMedicines(Request $request)
+    {
+        $search = $request->input('search');
+
+        $medicines = Medicines::when($search, function ($query) use ($search) {
+            return $query->where('medicine_name', 'like', "%$search%");
+        })->get();
+
+        return view('employees.EmployeeHomePage', compact('medicines', 'search'));
+    }
+
+    public function destroyMedicine($id)
+    {
+        $medicine = Medicines::findOrFail($id);
+        $medicine->delete();
+
+        return redirect()->route('EmployeePage')->with('success', 'Medicine deleted successfully.');
+    }
 }

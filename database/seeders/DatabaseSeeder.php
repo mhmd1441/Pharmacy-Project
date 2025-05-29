@@ -24,6 +24,10 @@ class DatabaseSeeder extends Seeder
             [
                 UserSeeder::class,
                 OrderSeeder::class,
+                InventorySeeder::class,
+                MedicinesSeeder::class,
+                EmployeeSeeder::class,
+                PharmacySeeder::class,
             ]
         );
     }

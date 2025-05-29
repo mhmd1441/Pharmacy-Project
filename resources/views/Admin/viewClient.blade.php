@@ -8,25 +8,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Base Styles */
         :root {
-            --primary: #4a90e2;
-            --primary-dark: #357abd;
+            --primary: #3498db;
+            --primary-dark: #2980b9;
             --secondary: #6c757d;
-            --success: #28a745;
-            --danger: #dc3545;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
             --light: #f8f9fa;
             --dark: #343a40;
-            --sidebar-bg: #2c3e50;
-            --sidebar-active: #34495e;
-            --pharma-green: #2ecc71;
-            --pharma-blue: #3498db;
+            --gray: #e9ecef;
+            --sidebar-width: 250px;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
         .sidebar {
-            width: 250px;
-            background-color: var(--sidebar-bg);
-            color: black;
-            height: 100%;
+            width: var(--sidebar-width);
+            background: #2c3e50;
+            color: white;
+            height: 100vh;
             position: fixed;
             transition: all 0.3s;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
@@ -34,7 +49,7 @@
 
         .sidebar-header {
             padding: 20px;
-            background-color: rgba(0, 0, 0, 0.1);
+            background: #1a252f;
             text-align: center;
         }
 
@@ -43,60 +58,50 @@
             font-size: 1.3rem;
         }
 
-        .sidebar-menu {
+        .sidebar-menu ul {
+            list-style: none;
             padding: 20px 0;
         }
 
-        .sidebar-menu ul {
-            list-style: none;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 5px;
-        }
-
-        .sidebar-menu a {
-            display: block;
-            padding: 12px 20px;
-            color: #ecf0f1;
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #b8c7ce;
             text-decoration: none;
             transition: all 0.3s;
-            font-size: 0.95rem;
         }
 
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background-color: var(--sidebar-active);
-            border-left: 4px solid var(--pharma-green);
+        .sidebar-menu li a:hover {
+            background: #1e2a36;
+            color: white;
         }
 
-        .sidebar-menu i {
+        .sidebar-menu li a.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .sidebar-menu li a i {
             margin-right: 10px;
             width: 20px;
             text-align: center;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-
+        /* Main Content Styles */
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 20px;
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 20px;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 30px;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 20px;
         }
 
         .header h1 {
@@ -104,30 +109,29 @@
             font-size: 1.8rem;
         }
 
+        /* Search Bar Styles */
         .search-bar {
             display: flex;
-            align-items: center;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
             flex-grow: 1;
             max-width: 500px;
+            min-width: 250px;
         }
 
         .search-bar input {
-            flex-grow: 1;
-            padding: 0.75rem 1rem;
-            border: none;
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
             outline: none;
-            font-size: 1rem;
         }
 
         .search-bar button {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 0.75rem 1.25rem;
+            padding: 0 15px;
+            border-radius: 0 4px 4px 0;
             cursor: pointer;
             transition: background 0.3s;
         }
@@ -136,41 +140,60 @@
             background: var(--primary-dark);
         }
 
-        .add-btn {
+        /* Button Styles */
+        .btn {
             display: inline-flex;
             align-items: center;
-            padding: 0.75rem 1.25rem;
-            background: var(--success);
-            color: white;
-            border: none;
-            border-radius: 5px;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 14px;
             font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
             text-decoration: none;
-            transition: background 0.3s;
+            border: none;
         }
 
-        .add-btn:hover {
-            background: #25a25a;
-        }
-
-        .add-btn i {
+        .btn i {
             margin-right: 8px;
         }
 
-        .card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            overflow-x: auto;
+        .btn-success {
+            background: var(--success);
+            color: white;
         }
 
-        .card-title {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-            border-bottom: 1px solid #eee;
-            padding-bottom: 0.5rem;
+        .btn-success:hover {
+            background: #27ae60;
+        }
+
+        .btn-edit {
+            background: var(--primary);
+            color: white;
+            padding: 8px 12px;
+        }
+
+        .btn-edit:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+            padding: 8px 12px;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        /* Card & Table Styles */
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            overflow-x: auto;
         }
 
         table {
@@ -180,101 +203,122 @@
 
         th,
         td {
-            padding: 1rem;
+            padding: 15px;
             text-align: left;
             border-bottom: 1px solid #eee;
         }
 
         th {
-            background-color: #f8f9fa;
+            background: #f8f9fa;
             font-weight: 600;
             color: var(--dark);
         }
 
         tr:hover {
-            background-color: #f8f9fa;
+            background: #f5f5f5;
         }
 
-        .action-btns {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn {
-            padding: 0.5rem 0.75rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        .btn i {
-            margin-right: 5px;
-        }
-
-        .btn-edit {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-edit:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .btn-delete {
-            background-color: var(--danger);
-            color: white;
-        }
-
-        .btn-delete:hover {
-            background-color: #c0392b;
-        }
-
+        /* Status Badges */
         .status-active {
             color: var(--success);
             font-weight: 500;
         }
 
         .status-inactive {
-            color: var(--secondary);
+            color: var(--danger);
             font-weight: 500;
         }
 
+        /* Action Buttons */
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Pagination Styles */
         .pagination {
+            margin-top: 20px;
             display: flex;
             justify-content: center;
-            margin-top: 2rem;
-            gap: 0.5rem;
         }
 
-        .page-btn {
-            padding: 0.5rem 0.75rem;
+        .pagination .pagination li {
+            display: inline-block;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 8px 16px;
+            margin: 0 4px;
             border: 1px solid #ddd;
-            background: white;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+            color: var(--primary);
         }
 
-        .page-btn.active {
+        .pagination a:hover {
+            background: #f1f1f1;
+        }
+
+        .pagination .active span {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
 
+        /* Responsive Styles */
         @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+
+            .sidebar-header h3,
+            .sidebar-menu li span {
+                display: none;
+            }
+
+            .sidebar-menu li a {
+                justify-content: center;
+                padding: 15px 0;
+            }
+
+            .sidebar-menu li a i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+
+            .container {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-bar {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .action-btns {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .action-btns .btn span {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
 
             th,
             td {
-                padding: 0.75rem 0.5rem;
-                font-size: 0.9rem;
-            }
-
-            .btn {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.8rem;
+                padding: 10px 5px;
+                font-size: 14px;
             }
 
             .btn i {
@@ -296,26 +340,27 @@
         <div class="sidebar-menu">
             <ul>
                 <li><a href="{{ route('adminDashboard') }}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
-                <li><a href="#"><i class="fas fa-users" class="active"></i> <span>Clients</span></a></li>
-                <li><a href="#"><i class="fas fa-user-tie"></i> <span>Employees</span></a></li>
+                <li><a href="{{ route('adminClient') }}" class="active"><i class="fas fa-users"></i> <span>Clients</span></a></li>
+                <li><a href="{{ route('adminEmployees') }}"><i class="fas fa-user-tie"></i> <span>Employees</span></a></li>
+                <li><a href="{{ route('admin.medicines') }}"><i class="fas fa-pills"></i> <span>Medicines</span></a></li>
                 <li><a href="{{ route('adminOrder') }}"><i class="fas fa-shopping-cart"></i> <span>Orders</span></a></li>
-                <li><a href="#"><i class="fas fa-truck"></i> <span>Shipping</span></a></li>
-                <li><a href="#"><i class="fas fa-box"></i> <span>Order Shipping</span></a></li>
+                <li><a href="{{ route('adminShipping') }}"><i class="fas fa-truck"></i> <span>Shipping</span></a></li>
+                <li><a href="{{ route('orderShipping.index') }}"><i class="fas fa-box"></i> <span>Order Shipping</span></a></li>
             </ul>
         </div>
     </div>
     <div class="container">
         <div class="header">
             <h1>Client Management</h1>
-            <div class="search-bar">
-                <input type="text" placeholder="Search by name or email...">
-                <button type="button"><i class="fas fa-search"></i></button>
-            </div>
-                        
-            <a href="{{ route('clients.create') }}" class="btn btn-success">Add new client</a>
-            
-            
 
+            <form method="GET" action="{{ route('adminClient') }}" class="search-bar">
+                <input type="text" name="search" placeholder="Search by name or email..." value="{{ request('search') }}">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+
+            <a href="{{ route('clients.create') }}" class="btn btn-success">
+                <i class="fas fa-plus"></i> <span>Add new client</span>
+            </a>
         </div>
 
         <div class="card">
@@ -331,101 +376,37 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($clients as $client)
                     <tr>
-                        <td>#1001</td>
-                        <td>John Doe</td>
-                        <td>john.doe@example.com</td>
-                        <td>1234567890</td>
-                        <td class="status-active">Active</td>
+                        <td>#{{ $client->id }}</td>
+                        <td>{{ $client->name }}</td>
+                        <td>{{ $client->email }}</td>
+                        <td>{{ $client->phone }}</td>
+                        <td class="status-{{ strtolower($client->status) }}">
+                            {{ $client->status }}
+                        </td>
                         <td>
                             <div class="action-btns">
-                                <button class="btn btn-edit">
+                                <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-edit">
                                     <i class="fas fa-edit"></i> <span>Edit</span>
-                                </button>
-                                <button class="btn btn-delete">
-                                    <i class="fas fa-trash-alt"></i> <span>Delete</span>
-                                </button>
+                                </a>
+                                <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this client?')">
+                                        <i class="fas fa-trash-alt"></i> <span>Delete</span>
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
+                    @empty
                     <tr>
-                        <td>#1002</td>
-                        <td>Jane Smith</td>
-                        <td>jane.smith@example.com</td>
-                        <td>2345678901</td>
-                        <td class="status-active">Active</td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn btn-edit">
-                                    <i class="fas fa-edit"></i> <span>Edit</span>
-                                </button>
-                                <button class="btn btn-delete">
-                                    <i class="fas fa-trash-alt"></i> <span>Delete</span>
-                                </button>
-                            </div>
-                        </td>
+                        <td colspan="6" class="text-center">No clients found.</td>
                     </tr>
-                    <tr>
-                        <td>#1003</td>
-                        <td>Robert Johnson</td>
-                        <td>robert.j@example.com</td>
-                        <td>3456789012</td>
-                        <td class="status-inactive">Inactive</td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn btn-edit">
-                                    <i class="fas fa-edit"></i> <span>Edit</span>
-                                </button>
-                                <button class="btn btn-delete">
-                                    <i class="fas fa-trash-alt"></i> <span>Delete</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#1004</td>
-                        <td>Emily Davis</td>
-                        <td>emily.d@example.com</td>
-                        <td>4567890123</td>
-                        <td class="status-active">Active</td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn btn-edit">
-                                    <i class="fas fa-edit"></i> <span>Edit</span>
-                                </button>
-                                <button class="btn btn-delete">
-                                    <i class="fas fa-trash-alt"></i> <span>Delete</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#1005</td>
-                        <td>Michael Wilson</td>
-                        <td>michael.w@example.com</td>
-                        <td>5678901234</td>
-                        <td class="status-inactive">Inactive</td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn btn-edit">
-                                    <i class="fas fa-edit"></i> <span>Edit</span>
-                                </button>
-                                <button class="btn btn-delete">
-                                    <i class="fas fa-trash-alt"></i> <span>Delete</span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                    @endforelse
                 </tbody>
             </table>
-
-            <div class="pagination">
-                <button class="page-btn"><i class="fas fa-angle-left"></i></button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <button class="page-btn"><i class="fas fa-angle-right"></i></button>
-            </div>
         </div>
     </div>
 </body>

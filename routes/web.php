@@ -8,12 +8,8 @@ use App\Http\Controllers\PaymentDetailsController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\OrderShippingController;
+use App\Http\Controllers\PharmaciesController;
 
-
-
-Route::get('/clientSide', function () {
-    return view('clients.homePage');
-});
 Route::get('/', function () {
     return redirect()->route('auth.login');
 });
@@ -21,6 +17,7 @@ Route::get('/login', [ClientController::class, 'showLoginForm'])->name('auth.log
 Route::post('/login', [ClientController::class, 'login'])->name('auth.login.submit');
 Route::get('/signup', [ClientController::class, 'showSignupForm'])->name('auth.signup');
 Route::post('/signup', [ClientController::class, 'signup'])->name('auth.signup.submit');
+Route::post('/logout', [ClientController::class, 'logout'])->name('auth.logout');
 
 
 Route::get('/admin', function () {
@@ -31,33 +28,23 @@ Route::get('/admin/medicine/create', function () {
     return view('Admin.createMedicine');
 })->name("adminMedicine");
 
-Route::get('/admin/clientPage', function () {
-    return view('Admin.viewClient');
-})->name('adminClient');
-
-Route::get('admin/client/create', function () {
-    return view('Admin.viewClient');
-})->name('clientPage');
-
-
 Route::get('/admin/viewEmployees', function () {
     return view('Admin.viewEmployees');
 })->name('adminEmployees');
 
 
 // Client Routes
-
-// Show All Clients
+Route::get('admin/client/create', function () {
+    return view('Admin.viewClient');
+})->name('clientPage');
+Route::get('/admin/clientPage', [ClientController::class, 'fetchAllClients'])->name('adminClient');
 Route::get('/clients', [ClientController::class, 'index'])->name('clientPage');
-
-// Show the form to craete a new client
-Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
-
-// Handle the form sumbmission and store the new Client
 Route::post('/clients', [ClientController::class, 'store'])->name('clients.store');
+Route::get('/clients/{client}/edit', [ClientController::class, 'edit'])->name('clients.edit');
+Route::put('/clients/{client}', [ClientController::class, 'update'])->name('clients.update');
+Route::delete('/clients/{client}', [ClientController::class, 'destroy'])->name('clients.destroy');
 
-
-// // Admin Routes
+// // Admin Routes`
 Route::get('/admin/employee/create', [EmployeeController::class, 'index'])->name('adminEmployee');
 Route::get('/admin/clients/create', [ClientController::class, 'create'])->name('clients.create');
 Route::get('/orders/search', [OrderController::class, 'filterAndSearch'])->name('orders.search');
@@ -177,7 +164,6 @@ Route::post('/admin/employees/store', [EmployeeController::class, 'store'])->nam
 //SET UP ROUTES
 Route::get('/admin/medicines/create', [MedicineController::class, 'create'])->name('medicines.create');
 Route::post('/admin/medicines/store', [MedicineController::class, 'store'])->name('medicines.store');
-
 Route::get('/admin/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
 Route::post('/admin/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
 
@@ -194,3 +180,29 @@ Route::get('/medicines/create', [MedicineController::class, 'create'])->name('me
 
 // Route to handle the form submission and store the new medicine
 Route::post('/medicines', [MedicineController::class, 'store'])->name('medicines.store');
+
+
+
+
+//Employee Side
+Route::get('/login/employee', [EmployeeController::class, 'showLoginForm'])->name('auth_login_emp');
+Route::post('/login/employees', [EmployeeController::class, 'login'])->name('auth_login_submit_emp');
+Route::get('/employeeSide', [EmployeeController::class, 'fetchAllMedicines'])->name('EmployeePage');
+Route::get('/employeeSide/search', [EmployeeController::class, 'searchMedicines'])->name('employee.medicines.search');
+Route::delete('/employee/medicines/{id}', [EmployeeController::class, 'destroyMedicine'])
+    ->name('EmployeeDeleteMedicine');
+//Client Side
+Route::get('/clientSide', [MedicineController::class, 'fetchMedicines'])->name('clientPage');
+Route::get('/clientSide/medicines', [MedicineController::class, 'fetchAllMedicines'])->name('MedicinesList');
+Route::post('/cart/add/{medicine}', [ClientController::class, 'add'])->name('cart.add');
+Route::get('/medicines/{medicine}', [ClientController::class, 'show'])->name('medicines.show');
+// Cart Routes
+Route::get('/cart', [OrderController::class, 'cart'])->name('cart.index');
+Route::post('/cart/add/{id}', [OrderController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/update', [OrderController::class, 'updateCart'])->name('cart.update');
+Route::get('/cart/remove/{id}', [OrderController::class, 'removeFromCart'])->name('cart.remove');
+Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.my');
+//Pharmacies Routes
+Route::get('/pharmacies', [PharmaciesController::class, 'index'])->name('pharmacies');
+Route::get('/pharmacies/{pharmacy}', [PharmaciesController::class, 'show'])->name('pharmacies.show');

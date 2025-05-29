@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pharmacies Zone - Your Online Pharmacy</title>
     <style>
-        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -25,33 +24,23 @@
             color: inherit;
         }
 
-        /* Navigation Bar */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 5%;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 1rem 2rem;
+            background-color: #2c3e50;
+            color: white;
         }
 
         .logo {
             display: flex;
             align-items: center;
+            gap: 1rem;
         }
 
         .logo img {
             height: 40px;
-            margin-right: 10px;
-        }
-
-        .logo h1 {
-            font-size: 1.5rem;
-            color: #2a7fba;
-            font-weight: 700;
         }
 
         .nav-links {
@@ -60,40 +49,22 @@
         }
 
         .nav-links a {
+            color: white;
+            text-decoration: none;
             font-weight: 500;
-            color: #555;
-            transition: color 0.3s;
-            position: relative;
         }
 
-        .nav-links a:hover {
-            color: #2a7fba;
-        }
-
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #2a7fba;
+        .nav-links a.active {
+            color: #3498db;
         }
 
         .profile-icon {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background-color: #2a7fba;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
+            background-color: #3498db;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-left: 1rem;
         }
 
-        /* Main Content */
         .container {
             max-width: 1200px;
             margin: 2rem auto;
@@ -118,7 +89,6 @@
             background-color: #2a7fba;
         }
 
-        /* Hero Section Styles */
         .hero-section {
             width: 100%;
             height: 500px;
@@ -214,7 +184,6 @@
             transform: scale(1.2);
         }
 
-        /* Pharmacy Tag */
         .pharmacy-tag {
             position: absolute;
             top: 20px;
@@ -254,7 +223,6 @@
             }
         }
 
-        /* Medicine Grid */
         .medicine-grid,
         .pharmacy-grid {
             display: grid;
@@ -279,7 +247,7 @@
         }
 
         .medicine-img {
-            height: 180px;
+            height: 100px;
             background-color: #e9f5ff;
             display: flex;
             align-items: center;
@@ -288,8 +256,8 @@
         }
 
         .medicine-img img {
-            max-width: 80%;
-            max-height: 80%;
+            max-width: 40%;
+            max-height: 40%;
             object-fit: contain;
         }
 
@@ -357,7 +325,6 @@
             color: white;
         }
 
-        /* Pharmacy Cards */
         .pharmacy-img {
             height: 120px;
             background-color: #f0f8ff;
@@ -385,7 +352,6 @@
             color: #2a7fba;
         }
 
-        /* Contact Section */
         .contact-section {
             background-color: #fff;
             padding: 3rem;
@@ -423,7 +389,6 @@
             font-size: 0.9rem;
         }
 
-        /* Footer */
         footer {
             background-color: #2a3f54;
             color: #fff;
@@ -497,7 +462,6 @@
             font-size: 0.9rem;
         }
 
-        /* Responsive Design */
         @media (max-width: 1024px) {
 
             .medicine-grid,
@@ -553,34 +517,83 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .pagination-title {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1rem;
+            font-weight: normal;
+        }
+
+        .pagination-title .pagination {
+            display: inline-flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            gap: 0.3rem;
+        }
+
+        .pagination-title .pagination li {
+            display: inline-block;
+        }
+
+        .pagination-title .pagination li a,
+        .pagination-title .pagination li span {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 3px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            color: #3498db;
+            font-size: 0.8rem;
+        }
+
+        .pagination-title .pagination li.active span {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .pagination-title .pagination li a:hover {
+            background-color: #f5f5f5;
+        }
+
+        .pagination-title .pagination li.disabled span {
+            color: #aaa;
+            border-color: #eee;
+        }
     </style>
 </head>
 
 <body>
-    <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="logo">
-            <img src="Logo.png" alt="Pharmacies Zone Logo">
+            <img src="{{ asset('Logo.png') }}" alt="Pharmacies Zone Logo">
             <h1>Pharmacies Zone</h1>
         </div>
         <div class="nav-links">
-            <a href="#" class="active">Home</a>
-            <a href="#">Orders</a>
-            <a href="#">Medicines</a>
-            <a href="#">Pharmacies</a>
+            <a href="{{ route('clientPage') }}" class="btn btn-primary">Home</a>
+            <a href="{{ route('MedicinesList') }}">Medicines</a>
+            <a href="{{ route('pharmacies') }}">Pharmacies</a>
+            <a href="{{ route('orders.my') }}">Orders</a>
+            <a href="{{ route('cart.index') }}">
+                Cart
+                @if(count((array) session('cart')) > 0)
+                <span class="badge bg-danger">{{ count((array) session('cart')) }}</span>
+                @endif
+            </a>
         </div>
-        <div class="profile-icon">JD</div>
+        <form action="{{ route('auth.logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-outline-light colored to-blue-800 border to-black">Logout</button>
+        </form>
+        <div class="profile-icon">Mohamad</div>
     </nav>
-    <!-- Hero Section -->
     <section class="hero-section">
-        <!-- Pharmacy Tag -->
         <div class="pharmacy-tag">
             Lebanon's Trusted Online Pharmacy Since 2025
         </div>
-
-        <!-- Carousel -->
         <div class="hero-carousel">
-            <!-- Slide 1 -->
             <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
                 <div class="hero-content">
                     <h2>Your Health, Our Priority</h2>
@@ -589,7 +602,6 @@
                 </div>
             </div>
 
-            <!-- Slide 2 -->
             <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
                 <div class="hero-content">
                     <h2>24/7 Pharmacy Services</h2>
@@ -598,7 +610,6 @@
                 </div>
             </div>
 
-            <!-- Slide 3 -->
             <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
                 <div class="hero-content">
                     <h2>Healthcare Made Easy</h2>
@@ -607,156 +618,45 @@
                 </div>
             </div>
         </div>
-
-        <!-- Carousel Dots -->
         <div class="carousel-dots">
             <div class="carousel-dot active"></div>
             <div class="carousel-dot"></div>
             <div class="carousel-dot"></div>
         </div>
     </section>
-    <!-- Main Content -->
     <div class="container">
-        <!-- Featured Medicines -->
         <section>
             <h2 class="section-title">Featured Medicines</h2>
             <div class="medicine-grid">
-                <!-- Medicine Card 1 -->
+                @foreach($medicines as $medicine)
                 <div class="medicine-card">
                     <div class="medicine-img">
+                        @if($medicine->image)
+                        <img src="{{ asset('storage/' . $medicine->image) }}" alt="{{ $medicine->medicine_name }}">
+                        @else
                         <img src="https://via.placeholder.com/150x150" alt="Medicine Image">
+                        @endif
                     </div>
                     <div class="medicine-details">
-                        <h3 class="medicine-name">Panadol Extra</h3>
-                        <p class="medicine-desc">Pain reliever and fever reducer with caffeine</p>
-                        <div class="medicine-price">$8.99</div>
+                        <h3 class="medicine-name">{{ $medicine->medicine_name }}</h3>
+                        <p class="medicine-desc">{{ $medicine->description }}</p>
+                        <div class="medicine-price">${{ number_format($medicine->price, 2) }}</div>
                         <div class="medicine-actions">
-                            <button class="btn btn-primary">Add to Cart</button>
-                            <button class="btn btn-outline">View</button>
+                            <form action="{{ route('cart.add', $medicine->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                            </form>
+                            <a href="{{ route('medicines.show', $medicine->id) }}" class="btn btn-outline">View</a>
                         </div>
                     </div>
                 </div>
-
-                <!-- Medicine Card 2 -->
-                <div class="medicine-card">
-                    <div class="medicine-img">
-                        <img src="https://via.placeholder.com/150x150" alt="Medicine Image">
-                    </div>
-                    <div class="medicine-details">
-                        <h3 class="medicine-name">Augmentin 625mg</h3>
-                        <p class="medicine-desc">Antibiotic for bacterial infections</p>
-                        <div class="medicine-price">$15.50</div>
-                        <div class="medicine-actions">
-                            <button class="btn btn-primary">Add to Cart</button>
-                            <button class="btn btn-outline">View</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Medicine Card 3 -->
-                <div class="medicine-card">
-                    <div class="medicine-img">
-                        <img src="https://via.placeholder.com/150x150" alt="Medicine Image">
-                    </div>
-                    <div class="medicine-details">
-                        <h3 class="medicine-name">Ventolin Inhaler</h3>
-                        <p class="medicine-desc">Relief for asthma symptoms</p>
-                        <div class="medicine-price">$12.75</div>
-                        <div class="medicine-actions">
-                            <button class="btn btn-primary">Add to Cart</button>
-                            <button class="btn btn-outline">View</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Medicine Card 4 -->
-                <div class="medicine-card">
-                    <div class="medicine-img">
-                        <img src="https://via.placeholder.com/150x150" alt="Medicine Image">
-                    </div>
-                    <div class="medicine-details">
-                        <h3 class="medicine-name">Zyrtec 10mg</h3>
-                        <p class="medicine-desc">Antihistamine for allergy relief</p>
-                        <div class="medicine-price">$9.25</div>
-                        <div class="medicine-actions">
-                            <button class="btn btn-primary">Add to Cart</button>
-                            <button class="btn btn-outline">View</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Second Row of Medicines -->
-                <!-- Medicine Card 5 -->
-                <div class="medicine-card">
-                    <div class="medicine-img">
-                        <img src="https://via.placeholder.com/150x150" alt="Medicine Image">
-                    </div>
-                    <div class="medicine-details">
-                        <h3 class="medicine-name">Lipitor 20mg</h3>
-                        <p class="medicine-desc">Cholesterol lowering medication</p>
-                        <div class="medicine-price">$22.40</div>
-                        <div class="medicine-actions">
-                            <button class="btn btn-primary">Add to Cart</button>
-                            <button class="btn btn-outline">View</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Medicine Card 6 -->
-                <div class="medicine-card">
-                    <div class="medicine-img">
-                        <img src="https://via.placeholder.com/150x150" alt="Medicine Image">
-                    </div>
-                    <div class="medicine-details">
-                        <h3 class="medicine-name">Prozac 20mg</h3>
-                        <p class="medicine-desc">Antidepressant medication</p>
-                        <div class="medicine-price">$18.90</div>
-                        <div class="medicine-actions">
-                            <button class="btn btn-primary">Add to Cart</button>
-                            <button class="btn btn-outline">View</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Medicine Card 7 -->
-                <div class="medicine-card">
-                    <div class="medicine-img">
-                        <img src="https://via.placeholder.com/150x150" alt="Medicine Image">
-                    </div>
-                    <div class="medicine-details">
-                        <h3 class="medicine-name">Synthroid 50mcg</h3>
-                        <p class="medicine-desc">Thyroid hormone replacement</p>
-                        <div class="medicine-price">$14.30</div>
-                        <div class="medicine-actions">
-                            <button class="btn btn-primary">Add to Cart</button>
-                            <button class="btn btn-outline">View</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Medicine Card 8 -->
-                <div class="medicine-card">
-                    <div class="medicine-img">
-                        <img src="https://via.placeholder.com/150x150" alt="Medicine Image">
-                    </div>
-                    <div class="medicine-details">
-                        <h3 class="medicine-name">Nexium 40mg</h3>
-                        <p class="medicine-desc">Acid reflux medication</p>
-                        <div class="medicine-price">$16.75</div>
-                        <div class="medicine-actions">
-                            <button class="btn btn-primary">Add to Cart</button>
-                            <button class="btn btn-outline">View</button>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                {{ $medicines->links() }}
             </div>
         </section>
-
-        <!-- Featured Pharmacies -->
         <section>
             <h2 class="section-title">Featured Pharmacies</h2>
             <div class="pharmacy-grid">
-                <!-- Pharmacy Card 1 -->
                 <div class="pharmacy-card">
                     <div class="pharmacy-img">
                         <img src="https://via.placeholder.com/150x80" alt="Pharmacy Logo">
@@ -773,7 +673,6 @@
                     </div>
                 </div>
 
-                <!-- Pharmacy Card 2 -->
                 <div class="pharmacy-card">
                     <div class="pharmacy-img">
                         <img src="https://via.placeholder.com/150x80" alt="Pharmacy Logo">
@@ -790,7 +689,6 @@
                     </div>
                 </div>
 
-                <!-- Pharmacy Card 3 -->
                 <div class="pharmacy-card">
                     <div class="pharmacy-img">
                         <img src="https://via.placeholder.com/150x80" alt="Pharmacy Logo">
@@ -807,10 +705,9 @@
                     </div>
                 </div>
 
-                <!-- Pharmacy Card 4 -->
                 <div class="pharmacy-card">
                     <div class="pharmacy-img">
-                        <img src="https://via.placeholder.com/150x80" alt="Pharmacy Logo">
+                        <img src="img/bootsPharmacy.jpg" alt="Pharmacy Logo">
                     </div>
                     <div class="pharmacy-details">
                         <h3 class="pharmacy-name">Green Valley Pharma</h3>
@@ -825,8 +722,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Contact Section -->
         <section class="contact-section">
             <h2 class="section-title">Contact Us</h2>
             <p>Have questions or need assistance? Our team is here to help you with all your pharmaceutical needs.</p>
@@ -861,8 +756,6 @@
             </div>
         </section>
     </div>
-
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-column">
