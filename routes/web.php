@@ -103,13 +103,6 @@ Route::get('/admin/shipping', function () {
 
 //employee_routing
 Route::get('/admin/viewEmployees', [EmployeeController::class, 'index'])->name('adminEmployees');
-// Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
-// Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
-// Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
-// Route::get('/employees/{id}', [EmployeeController::class, 'show'])->name('employees.show');
-// Route::get('/employees/{id}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
-// Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
-// Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 Route::get('/employees/search', [EmployeeController::class, 'search'])->name('employees.search');
 Route::resource('employees', EmployeeController::class);
 
@@ -131,20 +124,15 @@ Route::get('/shippings/{id}/edit', [ShippingController::class, 'edit'])->name('s
 Route::delete('/shippings/{id}', [ShippingController::class, 'destroy'])->name('shippings.destroy');
 Route::put('/shippings/{id}', [ShippingController::class, 'update'])->name('shippings.update');
 
-// Route::resource('shipping', ShippingController::class);
-// Route::get('/shipping', [ShippingController::class, 'index'])->name('shipping.index');
-// Route::get('/shipping/create', [ShippingController::class, 'create'])->name('shipping.create');
-// Route::post('/shipping', [ShippingController::class, 'store'])->name('shipping.store');
-// Route::get('/shipping/{id}', [ShippingController::class, 'show'])->name('shipping.show');
-// Route::get('/admin/shipping/{id}/edit', [ShippingController::class, 'edit'])->name('shipping.edit');
-// Route::put('/shipping/{id}', [ShippingController::class, 'update'])->name('shipping.update');
-// Route::delete('/admin/shipping/{id}', [ShippingController::class, 'destroy'])->name('shipping.destroy');
-
 
 // Employee CRUD
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
 Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
+Route::get('/employees/{id}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
+
+
 
 // Medicine CRUD
 Route::get('/medicines', [MedicineController::class, 'index'])->name('medicines.index');

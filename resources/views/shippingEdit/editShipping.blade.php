@@ -8,8 +8,9 @@
         h1 { color: #333; }
         form { background-color: #fff; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         label { display: block; margin-top: 15px; font-weight: bold; }
-        input[type="text"], input[type="date"] {
+        input[type="text"], input[type="date"], select {
             width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px;
+            font-size: 14px; background-color: #fff;
         }
         button {
             margin-top: 20px; padding: 10px 20px; background-color: #007BFF; color: white;
@@ -29,7 +30,11 @@
     @method('PUT')
 
     <label for="shipping_status">Shipping Status</label>
-    <input type="text" id="shipping_status" name="shipping_status" value="{{ $shipping->shipping_status }}" required>
+    <select id="shipping_status" name="shipping_status" required>
+        <option value="pending" {{ $shipping->shipping_status == 'pending' ? 'selected' : '' }}>Pending</option>
+        <option value="delayed" {{ $shipping->shipping_status == 'delayed' ? 'selected' : '' }}>Delayed</option>
+        <option value="shipped" {{ $shipping->shipping_status == 'shipped' ? 'selected' : '' }}>Shipped</option>
+    </select>
 
     <label for="shipping_date">Shipping Date</label>
     <input type="date" id="shipping_date" name="shipping_date" value="{{ $shipping->shipping_date }}" required>
